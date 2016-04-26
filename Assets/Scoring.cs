@@ -22,7 +22,7 @@ public class Scoring : MonoBehaviour {
         string txt = scr.ToString();
         score = txt;
         scr++;
-        Debug.Log("scr");
+        Debug.Log(scr);
 	
 	}
 }

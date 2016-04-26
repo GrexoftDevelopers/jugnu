@@ -12,6 +12,8 @@ public class CameraControll : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameObject playerx = GameObject.FindGameObjectWithTag("Player");
+        
+        
 
         playerTransform = playerx.transform;
         offsetx = transform.position.x - playerTransform.position.x;
