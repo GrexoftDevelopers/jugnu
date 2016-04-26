@@ -2,15 +2,16 @@
 using System.Collections;
 
 public class Scoring : MonoBehaviour {
-    GameObject scorebox = GameObject.FindGameObjectWithTag("Score");
+    GameObject scorebox;
+    string score;
     
     
     
 
 	// Use this for initialization
 	void Start () {
-        string score = scorebox.GetComponent(TextMesh).text
-        
+        scorebox = GameObject.FindGameObjectWithTag("Score");
+        score = scorebox.GetComponent<TextMesh>().text;        
 	
 	}
 	
@@ -19,7 +20,7 @@ public class Scoring : MonoBehaviour {
         int scr = 0;
         scr++;
         string txt = scr.ToString();
-        score.text = txt;
+        score = txt;
         scr++;
         Debug.Log("scr");
 	
