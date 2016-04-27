@@ -10,6 +10,7 @@ TagManager:
   - Jugnoo_light
   - main_light
   - Score
+  - ground
   layers:
   - Default
   - TransparentFX

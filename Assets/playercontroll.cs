@@ -9,17 +9,19 @@ public class playercontroll : MonoBehaviour {
     bool didfly = false;
     public bool gotstar = false;
     public Sprite mysprite;
-    
-    
+
+    bool isGame;
+
+
 
     // Use this for initialization
     void Start () {
+
+        isGame = true;
+
         if (Screen.width == 480){
             transform.position = new Vector3(-5, 0, 0);
-        }
-       
-        
-        
+        }       
 
                 	
 	}
@@ -100,11 +102,15 @@ public class playercontroll : MonoBehaviour {
         }
         if (col.gameObject.name == "Cube")
         {
-            Destroy(gameObject);
-            
+            //Destroy(gameObject);
+            isGame = false;
             
         }
        
+    }
+
+    public bool getIsGame() {
+        return isGame;
     }
     
 }
