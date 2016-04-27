@@ -11,6 +11,6 @@ public class BGControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position += movement * Time.deltaTime;
+        //transform.position += movement * Time.deltaTime;
 	}
 }

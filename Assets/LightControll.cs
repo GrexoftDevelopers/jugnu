@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LightControll : MonoBehaviour
 {
-    public const float DURATION = 3.0f;
+    public const float DURATION = 5.0f;
     public Light lt;
 
     playercontroll player;
@@ -40,24 +40,22 @@ public class LightControll : MonoBehaviour
         
     {
 
-        timeLapse += Time.deltaTime;
+        
         //Debug.Log("timeLapse : " + timeLapse);
         if (player.getIsGame()) {
-
-            if (player.gotstar)
-            {
-                timeLapse = 0;
-
-                player.gotstar = false;
-
-                lt.range = originalRange;
-            }
-
+            timeLapse += Time.deltaTime;
             lt.range = originalRange - timeLapse * deltaRange;
 
         }
 
           
 
+    }
+
+    public void resetLight() {
+
+        timeLapse = 0;
+
+        lt.range = originalRange;
     }
 }

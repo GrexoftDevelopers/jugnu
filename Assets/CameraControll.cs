@@ -6,8 +6,8 @@ public class CameraControll : MonoBehaviour {
     Transform playerTransform;
     float offsetx;
     Vector3 playerVelocity;
-    const float TREE_UPPER_Z = 11;
-    const float TREE_LOWER_Z = 7;
+    const float TREE_UPPER_Z = 5;
+    const float TREE_LOWER_Z = 1;
 
     List<GameObject> stars;
     List<GameObject> grounds;
@@ -40,8 +40,14 @@ public class CameraControll : MonoBehaviour {
             }            
             grounds.Add(initGrounds[i]);
             Debug.Log("grounds [" + i + "] x : " + grounds[i].transform.position.x);
+
+            
         }
-        
+
+        float screenWidth = Screen.width;
+        Debug.Log("screen width : " + screenWidth);
+
+        createStar(true);
 
     }
 	
@@ -74,12 +80,12 @@ public class CameraControll : MonoBehaviour {
             //Debug.Log("last ground x : " + fifthLastGroundX);
             //Debug.Log("camera x : " + pos.x);            
             if (fifthLastGroundX < pos.x) {
-                Debug.Log("last ground started");
-                Debug.Log("last ground x : " + fifthLastGroundX);
-                Debug.Log("camera x : " + pos.x);
+                //Debug.Log("last ground started");
+                //Debug.Log("last ground x : " + fifthLastGroundX);
+                //Debug.Log("camera x : " + pos.x);
                 float lastGroundWidth = ((RectTransform)fifthLastGround.transform).rect.width * 5;
                 Vector3 newLastGroundPosition = fifthLastGround.transform.position;
-                Debug.Log("last ground width : " + lastGroundWidth);
+                //Debug.Log("last ground width : " + lastGroundWidth);
                 newLastGroundPosition.x = newLastGroundPosition.x + lastGroundWidth - 2;
                 GameObject newLastGround = Instantiate(fifthLastGround);
                 newLastGround.transform.position = newLastGroundPosition;
@@ -94,4 +100,26 @@ public class CameraControll : MonoBehaviour {
 
 
 	}
+
+    public void createStar(bool fullDistance)
+    {
+        GameObject star = (GameObject)Instantiate(Resources.Load("star_prefab"));
+
+        Vector3 starPosition = star.transform.position;
+
+        stars.Add(star);
+
+        if (fullDistance) {
+            float lightDuration = LightControll.DURATION;
+            float xVelocity = GameObject.FindGameObjectWithTag("Player").GetComponent<playercontroll>().move.x;
+            float lightDistance = lightDuration * xVelocity;
+            lightDistance = Random.Range(lightDistance / 2, lightDistance);
+            float playerPosition = playerTransform.position.x;
+            starPosition.x = lightDistance + playerPosition;
+            star.transform.position = starPosition;
+        }
+
+        
+    }
+
 }

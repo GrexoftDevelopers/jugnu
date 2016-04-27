@@ -7,8 +7,10 @@ public class playercontroll : MonoBehaviour {
     public Vector3 gravity;
     public Vector3 move;
     bool didfly = false;
-    public bool gotstar = false;
+    //public bool gotstar = false;
     public Sprite mysprite;
+    LightControll lightControl;
+    CameraControll cameraControl;
 
     bool isGame;
 
@@ -21,10 +23,13 @@ public class playercontroll : MonoBehaviour {
 
         if (Screen.width == 480){
             transform.position = new Vector3(-5, 0, 0);
-        }       
+        } 
+        
+        lightControl = GameObject.FindGameObjectWithTag("Jugnoo_light").GetComponent<LightControll>();
+        cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControll>();
 
-                	
-	}
+
+    }
 
     void Update ()
     {
@@ -96,8 +101,8 @@ public class playercontroll : MonoBehaviour {
         if (col.gameObject.tag == "Star")
         {
             Destroy(col.gameObject);
-            gotstar = true;
-
+            lightControl.resetLight();
+            cameraControl.createStar(true);
             
         }
         if (col.gameObject.name == "Cube")
@@ -107,7 +112,7 @@ public class playercontroll : MonoBehaviour {
             
         }
        
-    }
+    }    
 
     public bool getIsGame() {
         return isGame;
