@@ -20,7 +20,7 @@ public class LightControll : MonoBehaviour
     void Start()
     {
 
-        Debug.Log("inside on start of light control. this is : " + this.ToString());
+        //Debug.Log("inside on start of light control. this is : " + this.ToString());
 
         lt = GetComponent<Light>();
 
@@ -30,7 +30,7 @@ public class LightControll : MonoBehaviour
 
         deltaRange = lt.range / DURATION;
 
-        Debug.Log("delta range : " + deltaRange);
+        //Debug.Log("delta range : " + deltaRange);
 
         timeLapse = 0;
 

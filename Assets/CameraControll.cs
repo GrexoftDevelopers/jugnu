@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public class CameraControll : MonoBehaviour {
     Transform playerTransform;
     float offsetx;
-    Vector3 playerVelocity;
-    const float TREE_UPPER_Z = 5;
-    const float TREE_LOWER_Z = 1;
 
     List<GameObject> stars;
     List<GameObject> grounds;
+    List<GameObject> trees;
+
+    bool treeCreated;
+    float timeLapse;
+    float treeGapIneterval;
 
     
     
@@ -22,12 +24,12 @@ public class CameraControll : MonoBehaviour {
 
         stars = new List<GameObject>();
         grounds = new List<GameObject>();
+        trees = new List<GameObject>();
         playerTransform = playerx.transform;
         offsetx = transform.position.x - playerTransform.position.x;
 
-        playerVelocity = GameObject.FindGameObjectWithTag("Player").GetComponent<playercontroll>().move;
         GameObject[] initGrounds = GameObject.FindGameObjectsWithTag("ground");
-        Debug.Log("init grounds length : " + initGrounds.Length);
+        //Debug.Log("init grounds length : " + initGrounds.Length);
         //sorting the grounds on the basis of their x position
         GameObject temp;
         for (int i = 0; i < initGrounds.Length; i++) {
@@ -39,42 +41,36 @@ public class CameraControll : MonoBehaviour {
                 }
             }            
             grounds.Add(initGrounds[i]);
-            Debug.Log("grounds [" + i + "] x : " + grounds[i].transform.position.x);
+            //Debug.Log("grounds [" + i + "] x : " + grounds[i].transform.position.x);
 
             
         }
 
-        float screenWidth = Screen.width;
-        Debug.Log("screen width : " + screenWidth);
-
         createStar(true);
-
+        Vector3 position = playerTransform.position;
+        float initialTreeX = -5;
+        for (int i = 0; i < 5; i++) {
+            position.x += initialTreeX + (treevelocity.TREE_GAP_X * i);
+            createTree(position);
+        }
+        treeCreated = true;
+        timeLapse = 0.0f;
+        treeGapIneterval = treevelocity.TREE_GAP_X / playerx.GetComponent<playercontroll>().move.x;
+        
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        timeLapse += Time.deltaTime;
+
         Vector3 pos = transform.position;
         pos.x = playerTransform.position.x + offsetx;
         transform.position = pos;
 
-        GameObject[] trees = GameObject.FindGameObjectsWithTag("BT");
-        if (trees != null && trees.Length > 0) {
-            //Debug.Log("number of trees : " + trees.Length);
-            Vector3 treePosition;
-            for (int i = 0; i < trees.Length; i++) {
-                treePosition = trees[i].transform.position;
-                float zDisplacementPercent = (treePosition.z - TREE_LOWER_Z) / (TREE_UPPER_Z - TREE_LOWER_Z);
-                //Debug.Log("zDisplacementPercent : " + zDisplacementPercent);
-                float xVelocity = zDisplacementPercent * playerVelocity.x * 0.5f;
-                //Debug.Log("player velocity : " + playerVelocity);
-                //Debug.Log("tree velocity of " + i + "th tree : " + xVelocity);
-                treePosition.x += xVelocity * Time.deltaTime;
-                trees[i].transform.position = treePosition;
-            }
-        }
-
         if (grounds != null && grounds.Count > 4) {
-            Debug.Log("grounds count : " + grounds.Count);
+            //Debug.Log("grounds count : " + grounds.Count);
             GameObject fifthLastGround = grounds[grounds.Count - 5];
             float fifthLastGroundX = fifthLastGround.transform.position.x;
             //Debug.Log("last ground x : " + fifthLastGroundX);
@@ -96,6 +92,21 @@ public class CameraControll : MonoBehaviour {
             //    grounds.RemoveAt(0);
             //    Destroy(tempObject);
             //}
+        }
+        //Debug.Log("time lapse : " + timeLapse + " & treegap interval : " + treeGapIneterval);
+        if (timeLapse % treeGapIneterval < 0.1f)
+        {
+            if (!treeCreated)
+            {
+                Vector3 position = playerTransform.position;
+                position.x += 30;
+                createTree(position);
+                treeCreated = true;
+                //Debug.Log("tree created");
+            }
+        }
+        else {
+            treeCreated = false;
         }
 
 
@@ -120,6 +131,13 @@ public class CameraControll : MonoBehaviour {
         }
 
         
+    }
+
+    private void createTree(Vector3 position) {
+        GameObject tree = (GameObject)Instantiate(Resources.Load("tree"));
+        position.y = tree.transform.position.y;
+        tree.transform.position = position;
+        trees.Add(tree);
     }
 
 }

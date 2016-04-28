@@ -14,6 +14,8 @@ public class playercontroll : MonoBehaviour {
 
     bool isGame;
 
+    Vector3 xVelocityCurrent, xPositionPrevious;
+
 
 
     // Use this for initialization
@@ -27,6 +29,8 @@ public class playercontroll : MonoBehaviour {
         
         lightControl = GameObject.FindGameObjectWithTag("Jugnoo_light").GetComponent<LightControll>();
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControll>();
+        xPositionPrevious = Vector3.zero;
+        xVelocityCurrent = Vector3.zero;
 
 
     }
@@ -37,8 +41,8 @@ public class playercontroll : MonoBehaviour {
         
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            didfly = true;
-            
+            didfly = true;          
+
 
         }
 
@@ -47,10 +51,9 @@ public class playercontroll : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate () {        
 
-        
-       if (didfly == true)
+        if (didfly == true)
         {
             didfly = false;
             if (velocity.y < 0)
@@ -94,6 +97,18 @@ public class playercontroll : MonoBehaviour {
             GetComponent<SpriteRenderer>().sprite = mysprite;
         }
 
+        Vector3 pos = transform.position;
+        if (xPositionPrevious.Equals(Vector3.zero))
+        {
+            xVelocityCurrent = pos / Time.deltaTime;
+        }
+        else {
+            xVelocityCurrent = (pos - xPositionPrevious) / Time.deltaTime;
+        }
+        xPositionPrevious = pos;
+
+        //Debug.Log("xVelocity current : " + xVelocityCurrent);
+
 
     }
     public void OnCollisionEnter2D(Collision2D col)
@@ -116,6 +131,10 @@ public class playercontroll : MonoBehaviour {
 
     public bool getIsGame() {
         return isGame;
+    }
+
+    public Vector3 getCurrentXVelocity() {
+        return xVelocityCurrent;
     }
     
 }
