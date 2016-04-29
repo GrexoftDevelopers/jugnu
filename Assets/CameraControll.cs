@@ -9,16 +9,36 @@ public class CameraControll : MonoBehaviour {
     List<GameObject> stars;
     List<GameObject> grounds;
     List<GameObject> trees;
+    List<GameObject> fans;
 
     bool treeCreated;
     float timeLapse;
     float treeGapIneterval;
+    float fanGapInterval;
+    bool fanCreated;
+    float camWidth, camHeight;
 
+    const float PLAYER_VERTICAL_LIMIT = 14.0f;
+
+    float groundTop, roofBottom;
     
     
 
 	// Use this for initialization
-	void Start () {        
+	void Start () {
+
+        Camera cam = Camera.main;
+        camHeight = 2f * cam.orthographicSize;
+        camWidth = camHeight * cam.aspect;
+
+        groundTop = -PLAYER_VERTICAL_LIMIT / 2;
+        Debug.Log("GROUND TOP : " + groundTop);
+        
+        roofBottom = PLAYER_VERTICAL_LIMIT / 2;
+        Debug.Log("roof bottom : " + roofBottom);
+
+        Debug.Log("camera width : " + camWidth);
+        Debug.Log("camera height : " + camHeight);
 
         GameObject playerx = GameObject.FindGameObjectWithTag("Player");
 
@@ -39,8 +59,17 @@ public class CameraControll : MonoBehaviour {
                     initGrounds[i] = initGrounds[j];
                     initGrounds[j] = temp;
                 }
-            }            
+            }
+            RectTransform groundRect = (RectTransform)initGrounds[i].transform;
+            float groundHeight = groundRect.rect.height;
+            Debug.Log("ground height : " + groundHeight);
+            Vector3 groundPosition = groundRect.position;
+            float deltaY = groundTop - groundPosition.y - groundHeight;
+            groundPosition.y += deltaY;
+            Debug.Log("ground top after render : " + (groundPosition.y + groundHeight/2));
+            initGrounds[i].transform.position = groundPosition;
             grounds.Add(initGrounds[i]);
+            
             //Debug.Log("grounds [" + i + "] x : " + grounds[i].transform.position.x);
 
             
@@ -56,8 +85,21 @@ public class CameraControll : MonoBehaviour {
         treeCreated = true;
         timeLapse = 0.0f;
         treeGapIneterval = treevelocity.TREE_GAP_X / playerx.GetComponent<playercontroll>().move.x;
+
+        fanGapInterval = fanRotation.FAN_GAP_X / playerx.GetComponent<playercontroll>().move.x;
+        fans = new List<GameObject>();
+        fans.Add((GameObject)Instantiate(Resources.Load("fan_prefab")));
+
         
         
+    }
+
+    public float getGroundTop() {
+        return groundTop;
+    }
+
+    public float getRoofBottom() {
+        return roofBottom;
     }
 	
 	// Update is called once per frame
@@ -101,12 +143,27 @@ public class CameraControll : MonoBehaviour {
                 Vector3 position = playerTransform.position;
                 position.x += 30;
                 createTree(position);
-                treeCreated = true;
+                treeCreated = true;                
                 //Debug.Log("tree created");
             }
         }
         else {
             treeCreated = false;
+        }
+
+        if (timeLapse % fanGapInterval < 0.1f)
+        {
+            if (!fanCreated) {
+                GameObject fan = Instantiate(fans[fans.Count - 1]);
+                Vector3 position = fan.transform.position;
+                position.x += fanRotation.FAN_GAP_X;
+                fan.transform.position = position;
+                fans.Add(fan);
+                fanCreated = true;
+            }
+        }
+        else {
+            fanCreated = false;
         }
 
 

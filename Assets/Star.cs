@@ -19,7 +19,7 @@ public class Star : MonoBehaviour {
         //Vector3 playerPosition = player.transform.position;
         //if (playerPosition.x > transform.position.x) {
         //    Debug.Log("star left");
-        }
+        //}
 	
 	}
 }
