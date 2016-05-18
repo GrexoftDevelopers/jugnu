@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CameraControll : MonoBehaviour {
+public class CameraControll : MonoBehaviour
+{
     Transform playerTransform;
     float offsetx;
 
@@ -21,24 +22,25 @@ public class CameraControll : MonoBehaviour {
     const float PLAYER_VERTICAL_LIMIT = 14.0f;
 
     float groundTop, roofBottom;
-    
-    
 
-	// Use this for initialization
-	void Start () {
+
+
+    // Use this for initialization
+    void Start()
+    {
 
         Camera cam = Camera.main;
         camHeight = 2f * cam.orthographicSize;
         camWidth = camHeight * cam.aspect;
 
         groundTop = -PLAYER_VERTICAL_LIMIT / 2;
-        Debug.Log("GROUND TOP : " + groundTop);
-        
-        roofBottom = PLAYER_VERTICAL_LIMIT / 2;
-        Debug.Log("roof bottom : " + roofBottom);
+        //Debug.Log("GROUND TOP : " + groundTop);
 
-        Debug.Log("camera width : " + camWidth);
-        Debug.Log("camera height : " + camHeight);
+        roofBottom = PLAYER_VERTICAL_LIMIT / 2;
+        //Debug.Log("roof bottom : " + roofBottom);
+
+        //Debug.Log("camera width : " + camWidth);
+        //Debug.Log("camera height : " + camHeight);
 
         GameObject playerx = GameObject.FindGameObjectWithTag("Player");
 
@@ -52,9 +54,12 @@ public class CameraControll : MonoBehaviour {
         //Debug.Log("init grounds length : " + initGrounds.Length);
         //sorting the grounds on the basis of their x position
         GameObject temp;
-        for (int i = 0; i < initGrounds.Length; i++) {
-            for (int j = i + 1; j < initGrounds.Length; j++) {
-                if (initGrounds[i].transform.position.x > initGrounds[j].transform.position.x) {
+        for (int i = 0; i < initGrounds.Length; i++)
+        {
+            for (int j = i + 1; j < initGrounds.Length; j++)
+            {
+                if (initGrounds[i].transform.position.x > initGrounds[j].transform.position.x)
+                {
                     temp = initGrounds[i];
                     initGrounds[i] = initGrounds[j];
                     initGrounds[j] = temp;
@@ -66,19 +71,20 @@ public class CameraControll : MonoBehaviour {
             Vector3 groundPosition = groundRect.position;
             float deltaY = groundTop - groundPosition.y - groundHeight;
             groundPosition.y += deltaY;
-            Debug.Log("ground top after render : " + (groundPosition.y + groundHeight/2));
+            Debug.Log("ground top after render : " + (groundPosition.y + groundHeight / 2));
             initGrounds[i].transform.position = groundPosition;
             grounds.Add(initGrounds[i]);
-            
+
             //Debug.Log("grounds [" + i + "] x : " + grounds[i].transform.position.x);
 
-            
+
         }
 
         createStar(true);
         Vector3 position = playerTransform.position;
         float initialTreeX = -5;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             position.x += initialTreeX + (treevelocity.TREE_GAP_X * i);
             createTree(position);
         }
@@ -90,20 +96,23 @@ public class CameraControll : MonoBehaviour {
         fans = new List<GameObject>();
         fans.Add((GameObject)Instantiate(Resources.Load("fan_prefab")));
 
-        
-        
+
+
     }
 
-    public float getGroundTop() {
+    public float getGroundTop()
+    {
         return groundTop;
     }
 
-    public float getRoofBottom() {
+    public float getRoofBottom()
+    {
         return roofBottom;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         timeLapse += Time.deltaTime;
 
@@ -111,13 +120,15 @@ public class CameraControll : MonoBehaviour {
         pos.x = playerTransform.position.x + offsetx;
         transform.position = pos;
 
-        if (grounds != null && grounds.Count > 4) {
+        if (grounds != null && grounds.Count > 4)
+        {
             //Debug.Log("grounds count : " + grounds.Count);
             GameObject fifthLastGround = grounds[grounds.Count - 5];
             float fifthLastGroundX = fifthLastGround.transform.position.x;
             //Debug.Log("last ground x : " + fifthLastGroundX);
             //Debug.Log("camera x : " + pos.x);            
-            if (fifthLastGroundX < pos.x) {
+            if (fifthLastGroundX < pos.x)
+            {
                 //Debug.Log("last ground started");
                 //Debug.Log("last ground x : " + fifthLastGroundX);
                 //Debug.Log("camera x : " + pos.x);
@@ -143,17 +154,19 @@ public class CameraControll : MonoBehaviour {
                 Vector3 position = playerTransform.position;
                 position.x += 30;
                 createTree(position);
-                treeCreated = true;                
+                treeCreated = true;
                 //Debug.Log("tree created");
             }
         }
-        else {
+        else
+        {
             treeCreated = false;
         }
 
         if (timeLapse % fanGapInterval < 0.1f)
         {
-            if (!fanCreated) {
+            if (!fanCreated)
+            {
                 GameObject fan = Instantiate(fans[fans.Count - 1]);
                 Vector3 position = fan.transform.position;
                 position.x += fanRotation.FAN_GAP_X;
@@ -162,22 +175,25 @@ public class CameraControll : MonoBehaviour {
                 fanCreated = true;
             }
         }
-        else {
+        else
+        {
             fanCreated = false;
         }
 
 
-	}
+    }
 
     public void createStar(bool fullDistance)
     {
         GameObject star = (GameObject)Instantiate(Resources.Load("star_prefab"));
+        
 
         Vector3 starPosition = star.transform.position;
 
         stars.Add(star);
 
-        if (fullDistance) {
+        if (fullDistance)
+        {
             float lightDuration = LightControll.DURATION;
             float xVelocity = GameObject.FindGameObjectWithTag("Player").GetComponent<playercontroll>().move.x;
             float lightDistance = lightDuration * xVelocity;
@@ -187,10 +203,17 @@ public class CameraControll : MonoBehaviour {
             star.transform.position = starPosition;
         }
 
-        
+      
+
+
+
+
+
+
     }
 
-    private void createTree(Vector3 position) {
+    private void createTree(Vector3 position)
+    {
         GameObject tree = (GameObject)Instantiate(Resources.Load("tree"));
         position.y = tree.transform.position.y;
         tree.transform.position = position;

@@ -12,6 +12,8 @@ TagManager:
   - Score
   - ground
   - fan
+  - PauseMenu
+  - ScoreValue
   layers:
   - Default
   - TransparentFX

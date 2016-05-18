@@ -2,27 +2,36 @@
 using System.Collections;
 
 public class Scoring : MonoBehaviour {
-    GameObject scorebox;
-    string score;
-    
-    
-    
+    //GameObject scorebox;
 
-	// Use this for initialization
-	void Start () {
-        scorebox = GameObject.FindGameObjectWithTag("Score");
-        score = scorebox.GetComponent<TextMesh>().text;        
-	
-	}
+    //playercontroll plyctrl;
+
+
+
+
+
+
+    // Use this for initialization
+    void Start () {
+       // scorebox = GameObject.FindGameObjectWithTag("ScoreValue");
+        //plyctrl = GetComponent<playercontroll>();
+        
+
+
+
+
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        int scr = 0;
-        scr++;
-        string txt = scr.ToString();
-        score = txt;
-        scr++;
-        Debug.Log(scr);
+
+        
+
+        //string txt = plyctrl.score.ToString();
+        //scorebox.GetComponent<GUIText>().text = txt;
+        
 	
 	}
 }

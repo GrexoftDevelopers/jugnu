@@ -23,7 +23,7 @@ PlayerSettings:
   m_ActiveColorSpace: 0
   m_MTRendering: 1
   m_MobileMTRendering: 0
-  m_Stereoscopic3D: 0
+  m_Stereoscopic3D: 1
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   iosAppInBackgroundBehavior: 0
@@ -47,7 +47,7 @@ PlayerSettings:
   forceSingleInstance: 0
   resizableWindow: 0
   useMacAppStoreValidation: 0
-  gpuSkinning: 0
+  gpuSkinning: 1
   xboxPIXTextureCapture: 0
   xboxEnableAvatar: 0
   xboxEnableKinect: 0
@@ -299,12 +299,12 @@ PlayerSettings:
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
   scriptingDefineSymbols: {}
-  metroPackageName: New Unity Project 3
+  metroPackageName: NewUnityProject3
   metroPackageLogo: 
   metroPackageLogo140: 
   metroPackageLogo180: 
   metroPackageLogo240: 
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -349,7 +349,7 @@ PlayerSettings:
   metroPhoneSplashScreenImage: 
   metroPhoneSplashScreenImage140: 
   metroPhoneSplashScreenImage240: 
-  metroTileShortName: 
+  metroTileShortName: New Unity Pro
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0
@@ -360,9 +360,64 @@ PlayerSettings:
   metroTileBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenUseBackgroundColor: 0
-  platformCapabilities: {}
-  metroFTAName: 
-  metroFTAFileTypes: []
+  platformCapabilities:
+    WindowsStoreApps:
+      AccountRead: False
+      AccountWrite: False
+      AlarmGet: False
+      AlarmSet: False
+      Bluetooth: False
+      CalendarRead: False
+      CalendarWrite: False
+      Call: False
+      CallHistoryRead: False
+      CallHistoryWrite: False
+      ContactRead: False
+      ContactWrite: False
+      ContentWrite: False
+      DataSharing: False
+      Display: False
+      Download: False
+      Email: False
+      EnterpriseAuthentication: False
+      ExternalStorage: False
+      ExternalStorageAppData: False
+      HumanInterfaceDevice: False
+      InternetClient: False
+      InternetClientServer: False
+      KeyManager: False
+      LED: False
+      Location: False
+      MessageRead: False
+      MessageWrite: False
+      Microphone: False
+      MusicLibrary: False
+      NFC: False
+      NFCCardEmulation: False
+      NetworkGet: False
+      NetworkProfile: False
+      NetworkSet: False
+      Notification: False
+      PackageManagerInfo: False
+      PicturesLibrary: False
+      Power: False
+      PrivateNetworkClientServer: False
+      Proximity: False
+      Push: False
+      Recorder: False
+      RemovableStorage: False
+      SharedUserCertificates: False
+      Shortcut: False
+      Telephony: False
+      VideosLibrary: False
+      VolumeSet: False
+      WebCam: False
+      WifiDirect: False
+      WindowPrioritySet: False
+  metroFTAName: exe
+  metroFTAFileTypes:
+  - contentType: game
+    fileType: exe
   metroProtocolName: 
   metroCompilationOverrides: 1
   blackberryDeviceAddress: 

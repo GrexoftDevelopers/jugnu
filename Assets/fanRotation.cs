@@ -17,12 +17,19 @@ public class fanRotation : MonoBehaviour {
         position.y = y;
         transform.position = position;
 
+        
+        
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         transform.Rotate(new Vector3(0,0,-45) * Time.deltaTime*10);
+        if (Vector3.Distance(transform.position, Camera.main.transform.position) > 50)
+        {
+            Destroy(gameObject);
+        }
 
     }
 }

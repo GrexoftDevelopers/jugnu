@@ -50,6 +50,12 @@ public class treevelocity : MonoBehaviour {
         //Debug.Log("z position : " + treePosition.z + " & zDisplacement : " + zDisplacementPercent + " & xVelocity : " + xVelocity);
 
 
+        if (Vector3.Distance(transform.position, Camera.main.transform.position) > 25)
+        {
+            Destroy(gameObject);
+        }
+
+
 
 
 
