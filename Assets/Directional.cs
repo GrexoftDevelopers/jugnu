@@ -13,7 +13,7 @@ public class Directional : MonoBehaviour {
     // Use this for initialization
     void Start () {
         directionalLight = GetComponent<Light>();
-        Debug.Log("inside on start of dircetional light. this is : " + this.ToString());
+        //Debug.Log("inside on start of dircetional light. this is : " + this.ToString());
         pointLight = GameObject.FindGameObjectWithTag("Jugnoo_light").GetComponent<Light>();
         rangeRange = thresholdRange - lowerThreshold;
     }

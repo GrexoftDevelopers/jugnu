@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LightControll : MonoBehaviour
 {
-    public const float DURATION = 5.0f;
+    public const float DURATION = 10.0f;
     public Light lt;
 
     playercontroll player;
@@ -48,8 +48,7 @@ public class LightControll : MonoBehaviour
 
         }
 
-          
-
+    
     }
 
     public void resetLight() {

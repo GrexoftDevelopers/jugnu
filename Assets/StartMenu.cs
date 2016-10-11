@@ -3,8 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class StartMenu : MonoBehaviour {
-    public Button start;
-    public Button exit;
+    
     
     public Canvas MainMenu;
 
@@ -12,8 +11,7 @@ public class StartMenu : MonoBehaviour {
 	void Start () {
 
         MainMenu = MainMenu.GetComponent<Canvas>();
-        start = start.GetComponent<Button>();
-        exit = exit.GetComponent<Button>();
+        
         
 
         
@@ -25,8 +23,10 @@ public class StartMenu : MonoBehaviour {
 	// Update is called once per frame
 	public void StartLevel()
     {
-        Application.LoadLevel(1);
         
+        Application.LoadLevel(1);
+        Time.timeScale = 1;
+
     }
     public void ExitGame()
     {

@@ -14,6 +14,10 @@ TagManager:
   - fan
   - PauseMenu
   - ScoreValue
+  - Top
+  - HighScoreValue
+  - Add
+  - GamePlayed
   layers:
   - Default
   - TransparentFX

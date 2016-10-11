@@ -14,36 +14,68 @@ public class playercontroll : MonoBehaviour {
     CameraControll cameraControl;
     public int score;
     public Text ScoreValue;
-    public GameObject Canvas;
-    public GameObject scoretxt;
-    public int[] highScore;
-    public Button but;
+    float JumpResistance = 0;
+    
+    GameObject Canvas;
+    GameObject scoretxt;
+    GameObject highscoretxt;
+    GameObject GamePlayed;
+    int highScore;
+    int gamecount;
+    public AudioClip wing;
+    public AudioClip hitSound;
+    public AudioClip starColl;
+    public Image prog;
+    public Image starProg;
+
+
+
+
     
 
     bool isGame;
+    
+    
 
     Vector3 xVelocityCurrent, xPositionPrevious;
+    
 
 
 
     // Use this for initialization
     void Start () {
+        
+
+        highScore = PlayerPrefs.GetInt("HighScore");
+        gamecount = PlayerPrefs.GetInt("GameCount");
+        
+        
+
+        
+
         ScoreValue = ScoreValue.GetComponent<Text>();
 
         Canvas = GameObject.FindGameObjectWithTag("PauseMenu");
         Canvas.GetComponent<Canvas>().enabled = false;
         scoretxt = GameObject.FindGameObjectWithTag("ScoreValue");
-        but = gameObject.GetComponent<Button>();
+        highscoretxt = GameObject.FindGameObjectWithTag("HighScoreValue");
+        GamePlayed = GameObject.FindGameObjectWithTag("GamePlayed");
         
 
+        GetComponent<Animator>().speed = 1.5f;
         
-        
-        
-        
-        
-        
-        
-       
+
+
+
+
+
+
+
+
+
+
+
+
         isGame = true;
 
         
@@ -52,6 +84,8 @@ public class playercontroll : MonoBehaviour {
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControll>();
         xPositionPrevious = Vector3.zero;
         xVelocityCurrent = Vector3.zero;
+
+        
 
 
     }
@@ -65,9 +99,8 @@ public class playercontroll : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             didfly = true;          
-
-
         }
+
         if (Input.GetKeyDown(KeyCode.Escape) && isGame)
         {
             if (Time.timeScale == 1)
@@ -83,36 +116,72 @@ public class playercontroll : MonoBehaviour {
             }
 
         }
+        score = cameraControl.scorex-1;
 
         scoretxt.GetComponent<Text>().text = ScoreValue.text = score.ToString();
+        highscoretxt.GetComponent<Text>().text = highScore.ToString();
+
+        if (score>highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+        }
+
+        prog.fillAmount =  (12-JumpResistance)/12;
+        
+
+        starProg.fillAmount = GetComponentInChildren<LightControll>().lt.range / 160;
+
        
-
-
-
-
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {        
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+       
+        
+        
 
         if (didfly)
         {
+
             didfly = false;
+            AudioSource.PlayClipAtPoint(wing, transform.position);
             if (velocity.y < 0)
             {
                 velocity.y = 0;
+
             }
+
+            //if (jump > 0)
+            //{
+            //    jump -= 2;
+                
+
+            //}
+
             
-            velocity.y = 12;
+            
+
+
+           
+                velocity.y = 12 - JumpResistance;
+           
+
+            
+            
+            
+
+
 
         }
 
 
+        //Debug.Log("velocity : " + velocity.y);
 
-       
 
-        
-    
+
+
 
         float zAngle = 0;
         if (velocity.y < 0) {
@@ -152,13 +221,11 @@ public class playercontroll : MonoBehaviour {
             xVelocityCurrent = (pos - xPositionPrevious) / Time.deltaTime;
         }
         xPositionPrevious = pos;
+        
 
-        score++;
+        //score++;
 
-        if (!isGame)
-        {
-            gameOver();
-        }
+        
 
         //Debug.Log("xVelocity current : " + xVelocityCurrent);
 
@@ -168,22 +235,41 @@ public class playercontroll : MonoBehaviour {
     {
         if (col.gameObject.tag == "Star")
         {
+            AudioSource.PlayClipAtPoint(starColl, transform.position);
             Destroy(col.gameObject);
             lightControl.resetLight();
             cameraControl.createStar(true);
             
+            score += 5;
+            JumpResistance = 0;
+            
             
         }
-        if (col.gameObject.tag == "ground")
+        if (col.gameObject.tag == "ground" || col.gameObject.tag == "Top")
         {
-            //Destroy(gameObject);
+            
+          
             isGame = false;
-            
-            
+            gamecount++;
+            PlayerPrefs.SetInt("GameCount", gamecount);
+            GamePlayed.GetComponent<Text>().text = gamecount.ToString();
+            gameOver();
+
+
         }
         if (col.gameObject.tag == "fan")
         {
             velocity.y = -40f;
+            cameraControl.scorex -= 5;
+
+            //JumpResistance += 1f;
+
+
+
+            AudioSource.PlayClipAtPoint(hitSound, transform.position);
+            //fanRotation fan = gameObject.GetComponent<fanRotation>();
+            //fan.GetComponent<AudioSource>().Play();
+            
         }
        
     }    
@@ -195,19 +281,18 @@ public class playercontroll : MonoBehaviour {
     public Vector3 getCurrentXVelocity() {
         return xVelocityCurrent;
     }
-    public void gameOver()
+    private void gameOver()
     {
-        int i = 0;
+        
         Time.timeScale = 0;
+        
+        //Destroy(gameObject);
         Canvas.GetComponent<Canvas>().enabled = true;
-        highScore[i] = score;
-            i++;
-        foreach (int a in highScore) {
-            Debug.Log("/n"+a);
+        
 
         }
         
 
     }
     
-}
+
